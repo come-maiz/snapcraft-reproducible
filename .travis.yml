@@ -1,0 +1,149 @@
+sudo: true
+dist: trusty
+
+language: bash
+
+services: [docker]
+
+env:
+  - SNAP=7z-hello
+  - SNAP=alias
+  - SNAP=ant-with-options
+  - SNAP=arm
+  - SNAP=assemble
+  - SNAP=assets-with-gui-in-setup
+  - SNAP=assets-with-gui-in-snap
+  - SNAP=asset-tracking
+  - SNAP=asset-tracking-bzr
+  - SNAP=asset-tracking-git
+  - SNAP=asset-tracking-global-rm
+  - SNAP=asset-tracking-hg
+  - SNAP=asset-tracking-svn
+  - SNAP=autotools-hello
+  - SNAP=bad-arch
+  - SNAP=bad-yaml
+  - SNAP=basic
+  - SNAP=basic-without-arch
+  - SNAP=build-package
+  - SNAP=build-package-global
+  - SNAP=build-packages-missing-dependency
+  - SNAP=build-packages-without-dependencies
+  - SNAP=build-virtual-package
+  - SNAP=bzr-commit
+  - SNAP=bzr-head
+  - SNAP=bzr-tag
+  - SNAP=checksum-algorithms
+  - SNAP=checksum-algorithms-invalid
+  - SNAP=circular-dependencies
+  - SNAP=classic-build
+  - SNAP=cmake-hello
+  - SNAP=cmake-with-env-var
+  - SNAP=compressed-content-encoding
+  - SNAP=conflicts
+  - SNAP=copy-with-file-and-dir
+  - SNAP=copy-with-source
+  - SNAP=deb-hello
+  - SNAP=deb-with-checksum
+  - SNAP=deb-with-symlink
+  - SNAP=dependencies
+  - SNAP=desktop-with-non-ascii
+  - SNAP=dump
+  - SNAP=fake-curl-library
+  - SNAP=framework-policy
+  - SNAP=ftp-source
+  - SNAP=git-branch
+  - SNAP=git-commit
+  - SNAP=git-depth
+  - SNAP=git-head
+  - SNAP=git-tag
+  - SNAP=go-cgo
+  - SNAP=godeps
+  - SNAP=godeps-with-go-packages
+  - SNAP=go-hello
+  - SNAP=go-with-multiple-main-packages
+  - SNAP=gulp-hello
+  - SNAP=hg-branch
+  - SNAP=hg-commit
+  - SNAP=hg-head
+  - SNAP=hg-tag
+  - SNAP=hooks
+  - SNAP=independent-parts
+  - SNAP=invalid-snap
+  - SNAP=kernel-download
+  - SNAP=license
+  - SNAP=local-plugin
+  - SNAP=local-plugin-build-properties
+  - SNAP=local-plugin-in-parts
+  - SNAP=local-plugin-legacy-build-properties
+  - SNAP=local-plugin-legacy-pull-properties
+  - SNAP=local-plugin-pull-properties
+  - SNAP=local-source
+  - SNAP=local-source-subfolders
+  - SNAP=local-source-type
+  - SNAP=make-hello
+  - SNAP=make-with-artifacts
+  - SNAP=make-with-filesets
+  - SNAP=make-with-nonstandard-makefile
+  - SNAP=maven-with-options
+  - SNAP=meson-hello
+  - SNAP=multiarch
+  - SNAP=nil-basic
+  - SNAP=nil-plugin-pkgfilter
+  - SNAP=nil-with-additional-properties
+  - SNAP=nodejs-hello
+  - SNAP=nodejs-with-run-commands
+  - SNAP=old-part-src
+  - SNAP=pip-bzr
+  - SNAP=pip-requirements-file
+  - SNAP=pip-requirements-list
+  - SNAP=pip-root-data-files
+  - SNAP=pkgconfig-conflict
+  - SNAP=plainbox-provider
+  - SNAP=plainbox-provider-invalid
+  - SNAP=plainbox-provider-with-deps
+  - SNAP=plainbox-provider-with-stage-packages
+  - SNAP=prime-filter
+  - SNAP=prime-from-stage
+  - SNAP=python-and-plainbox-do-not-conflict
+  - SNAP=python-entry-point
+  - SNAP=python-pbr
+  - SNAP=python-pyyaml
+  - SNAP=python-with-stage-packages
+  - SNAP=python-with-two-parts
+  - SNAP=rpath-test
+  - SNAP=rpm-hello
+  - SNAP=rpm-with-checksum
+  - SNAP=rust-hello
+  - SNAP=rust-subdir
+  - SNAP=rust-with-conditional
+  - SNAP=rust-with-revision
+  - SNAP=scons-hello
+  - SNAP=scriptlet-build
+  - SNAP=scriptlet-install
+  - SNAP=scriptlet-prepare
+  - SNAP=snapcraft-environment
+  - SNAP=snapcraft-key-values
+  - SNAP=stage_env
+  - SNAP=stage-package-grammar
+  - SNAP=stage-packages-missing-dependency
+  - SNAP=stage-packages-without-dependencies
+  - SNAP=staging_links_to_libc
+  - SNAP=svn-pull
+  - SNAP=svn-pull-update
+  - SNAP=tar
+  - SNAP=use_libc_dl
+  - SNAP=version-script
+  - SNAP=waf-with-configflags
+  - SNAP=wiki
+  - SNAP=wiki-filesets
+  - SNAP=yaml-in-subdir
+  - SNAP=yaml-merge-tag
+  - SNAP=zip
+
+script:
+  - git clone https://github.com/snapcore/snapcraft
+  - cd snapcraft/integration_tests/snaps/$SNAP
+  - docker run -v $(pwd):$(pwd) -w $(pwd) snapcore/snapcraft sh -c "apt update && SNAPCRAFT_BUILD_INFO=1 snapcraft"
+  - cd prime
+  - docker run -v $(pwd):$(pwd) -w $(pwd) snapcore/snapcraft sh -c "apt update && SNAPCRAFT_BUILD_INFO=1 snapcraft"
+  - diff *.snap ../*.snap
