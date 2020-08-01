@@ -1,9 +1,6 @@
-sudo: true
-dist: trusty
-
-language: bash
-
-services: [docker]
+dist: bionic
+os: linux
+language: shell
 
 env:
   - SNAP=7z-hello
@@ -141,8 +138,8 @@ env:
   - SNAP=zip
 
 script:
-  - git clone https://github.com/snapcore/snapcraft
-  - cd snapcraft/integration_tests/snaps/$SNAP
+  - git clone --depth 1 https://github.com/snapcore/snapcraft
+  - cd snapcraft/tests/integration/snaps/$SNAP
   - docker run -v $(pwd):$(pwd) -w $(pwd) snapcore/snapcraft sh -c "apt update && SNAPCRAFT_BUILD_INFO=1 snapcraft"
   - cd prime
   - docker run -v $(pwd):$(pwd) -w $(pwd) snapcore/snapcraft sh -c "apt update && SNAPCRAFT_BUILD_INFO=1 snapcraft"
