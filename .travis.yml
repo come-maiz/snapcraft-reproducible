@@ -139,7 +139,7 @@ env:
 
 script:
   - git clone --depth 1 https://github.com/snapcore/snapcraft
-  - cd snapcraft/integration_tests/snaps/$SNAP
+  - cd snapcraft/tests/integration/snaps/$SNAP
   - docker run -v $(pwd):$(pwd) -w $(pwd) snapcore/snapcraft sh -c "apt update && SNAPCRAFT_BUILD_INFO=1 snapcraft"
   - cd prime
   - docker run -v $(pwd):$(pwd) -w $(pwd) snapcore/snapcraft sh -c "apt update && SNAPCRAFT_BUILD_INFO=1 snapcraft"
