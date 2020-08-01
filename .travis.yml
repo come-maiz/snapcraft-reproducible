@@ -1,9 +1,6 @@
-sudo: true
-dist: trusty
+dist: bionic
 
 language: bash
-
-services: [docker]
 
 env:
   - SNAP=7z-hello
